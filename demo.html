@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop Walkthrough (AI Narration)</title>
+  <style>
+    body, html { margin:0; padding:0; height:100vh; display:flex; font-family:Arial; }
+    #shop-frame { flex:1; border:none; height:100vh; }
+    #narration { width:400px; overflow-y:auto; background:#f7f7f7; padding:20px; border-left:2px solid #ddd; scroll-behavior:smooth; }
+    #narration h2 { margin-top:0; font-size:18px; border-bottom:2px solid #007bff; padding-bottom:6px; color:#007bff; cursor:pointer; }
+    #narration p { margin:8px 0 16px; line-height:1.4; }
+    .highlight { background:#e0f0ff; border-left:4px solid #007bff; padding-left:6px; }
+    #audio-controls { position:fixed; bottom:12px; right:12px; background:#007bff; color:white; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:bold; }
+  </style>
+</head>
+<body>
+
+  <iframe id="shop-frame" src="shopping.html"></iframe>
+
+  <div id="narration">
+    <h2 data-index="0">Welcome</h2><p>Welcome to my online store project…</p>
+    <h2 data-index="1">Apple Products</h2><p>The Apple section features…</p>
+    <h2 data-index="2">Samsung Products</h2><p>This section includes popular Samsung…</p>
+    <h2 data-index="3">Other Electronics</h2><p>The store also lists other electronics…</p>
+    <h2 data-index="4">Payment Methods</h2><p>To build customer trust…</p>
+    <h2 data-index="5">About Us</h2><p>The About Us section introduces…</p>
+    <h2 data-index="6">Shopping Cart</h2><p>The shopping cart area shows…</p>
+    <h2 data-index="7">Footer & Contact</h2><p>The footer includes a clean contact form…</p>
+    <h2 data-index="8">Summary</h2><p>This project demonstrates my skills…</p>
+  </div>
+
+  <div id="audio-controls">▶️ Play Narration</div>
+
+  <script>
+    const headings = document.querySelectorAll('#narration h2');
+    const audioBtn = document.getElementById('audio-controls');
+    let currentIndex = 0, isPlaying = false;
+
+    const audioFiles = ['audio/0-welcome.mp3','audio/1-apple-products.mp3','audio/2-samsung-products.mp3','audio/3-other-electronics.mp3','audio/4-payment-methods.mp3','audio/5-about-us.mp3','audio/6-shopping-cart.mp3','audio/7-footer-contact.mp3','audio/8-summary.mp3'];
+    const audios = audioFiles.map(src => new Audio(src));
+
+    function highlight(index) {
+      headings.forEach((h,i)=>h.classList.toggle('highlight', i===index));
+      headings[index].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    function playAudio() {
+      if(currentIndex >= audios.length) {
+        isPlaying = false; audioBtn.textContent = '▶️ Play Narration'; currentIndex = 0;
+        return;
+      }
+      highlight(currentIndex);
+      const audio = audios[currentIndex];
+      audio.play();
+      audio.onended = () => { currentIndex++; if(isPlaying) playAudio(); };
+    }
+
+    audioBtn.addEventListener('click', () => {
+      if(isPlaying) {
+        audios.forEach(a=>{a.pause(); a.currentTime = 0;});
+        isPlaying = false; audioBtn.textContent = '▶️ Play Narration'; currentIndex = 0;
+      } else {
+        isPlaying = true; playAudio(); audioBtn.textContent = '⏸️ Pause Narration';
+      }
+    });
+
+    headings.forEach((h,i) => h.addEventListener('click', () => {
+      audios.forEach(a=>{a.pause(); a.currentTime = 0;});
+      currentIndex = i;
+      if(isPlaying) playAudio();
+      else highlight(currentIndex);
+    }));
+
+    highlight(0);
+  </script>
+
+</body>
+</html>

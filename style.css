@@ -1,0 +1,47 @@
+/* Payment logos */
+.payment-methods {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.payment-logo,
+.store-logo {
+  max-width: 120px;
+  height: auto;
+  object-fit: contain;
+  margin: 0.5rem 1rem;
+  cursor: default;
+  transition: transform 0.3s ease;
+}
+
+.payment-logo:hover,
+.store-logo:hover {
+  transform: scale(1.1);
+}
+
+/* Store logos container */
+.store-logos-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Footer logo sizing */
+footer .logo {
+  max-width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Product images */
+.product-img {
+  max-height: 200px;
+  object-fit: contain;
+}
+
+/* Optional: smooth scroll fallback for browsers without JS */
+html {
+  scroll-behavior: smooth;
+}
